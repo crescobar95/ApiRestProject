@@ -1,14 +1,14 @@
 import app from "./app.js"
 import {sequelize} from "./database/Database.js";
 
+
 async function main() {
 try {
-    await sequelize.authenticate();
-    console.log("conexion establecida.");
-app.listen(3000);
-console.log("servicio ok",3000);
+    await sequelize.sync({alter:true})
+app.listen(4000);
+console.log("servicio ok",4000);
 } catch (error){
     console.error("conexion no establecida:", error);
 }
 }
-main();
+main(); 
