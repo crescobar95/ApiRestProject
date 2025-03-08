@@ -1,36 +1,37 @@
 version: '3.8'
-
+ 
 services:
   db:
-    image: postgres:15
+    image: postgres:15  # Se especifica una versión estable
     container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: cristian
-      POSTGRES_DB: postgres2
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+ 
   api:
     build: .
-    container_name: api_node
+    container_name: api_nodejs
     restart: always
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      DB_HOST: db
-      DB_USER: miusuario
-      DB_PASSWORD: mipassword
-      DB_NAME: midatabase
-      DB_PORT: 5432
+      DATABASE_URL: postgresql://postgresdbguayas_user:tA3SbsmZrW6yyVV1a4am1DS5OyLkUaiU@dpg-cuvvj22j1k6c738ak3qg-a.oregon-postgres.render.com/postgresdbguayas  
+      NODE_ENV: production
     ports:
       - "4000:4000"
     volumes:
       - .:/app
-    command: ["npm", "run", "dev"]  # Usa "start" si no usas nodemon
-
 volumes:
-  pgdata:
+  postgres_data:
