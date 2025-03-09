@@ -10,7 +10,7 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST, // 'db' desde docker-compose.yml
     dialect: 'postgres',
-    port: process.env.DB_PORT || 5432,
+    port: process.env.DB_PORT || 4000,
     logging: false, // Desactiva logs de SQL
   }
 );
