@@ -1,37 +1,36 @@
-version: '3.8'
- 
+version: '3.4'
+
 services:
+  apirestnodejs:
+    image: apirestnodejs
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      DB_HOST: db  # Nombre del servicio de PostgreSQL (si lo usas)
+      DB_USER: postgres
+      DB_PASSWORD: cristian
+      DB_NAME: postgres
+      DB_PORT: 5432
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    restart: always  # Reinicia si falla
+
   db:
-    image: postgres:15  # Se especifica una versión estable
+    image: postgres:15
     container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: cristian
-      POSTGRES_DB: postgresdbguayas
+      POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
- 
-  api:
-    build: .
-    container_name: api_nodejs
-    restart: always
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      DATABASE_URL: postgresql://postgresdbguayas_user:tA3SbsmZrW6yyVV1a4am1DS5OyLkUaiU@dpg-cuvvj22j1k6c738ak3qg-a.oregon-postgres.render.com/postgresdbguayas  
-      NODE_ENV: production
-    ports:
-      - "4000:4000"
-    volumes:
-      - .:/app
+      - pgdata:/var/lib/postgresql/data
 volumes:
-  postgres_data:
+    pgdata: 
+
