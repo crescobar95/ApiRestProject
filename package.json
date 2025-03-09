@@ -4,17 +4,15 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-
-    "scripts": {
+  "scripts": {
     "start": "node src/index.js",
-
     "dev": "nodemon src/app.js"
-    
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "morgan": "^1.10.0",
     "pg": "^8.13.3",
