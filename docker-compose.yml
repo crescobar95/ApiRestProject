@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      env_file:
+        .env 
     environment:
       NODE_ENV: production
       DB_HOST: db  # Nombre del servicio de PostgreSQL (si lo usas)
@@ -13,7 +15,7 @@ services:
       DB_PASSWORD: cristian
       DB_NAME: postgres
       DB_PORT: 5432
-    ports:
+    ports:  
       - 4000:4000
     depends_on:
       - db
