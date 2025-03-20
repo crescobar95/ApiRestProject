@@ -16,7 +16,20 @@ try{
 }catch(error){
     return res.status(500).json({message: error.message});
 
-}}
+}};
+
+export const getproductos = async (req, res) => {
+  try{
+    const { id } = req.params
+  const Product = await producto.findOne({
+    where: {id,}
+  });
+  res.json(Product);
+} catch(error){
+  return res.status(500).json({message:error.message});
+    }
+  };
+
 
 export async function createproducto(req, res) {
   try {

@@ -1,23 +1,18 @@
-import app from "./app.js";
-import { sequelize } from "./database/Database.js";
+import app from "./app.js"
+import {sequelize} from "./database/Database.js";
 
-const PORT = process.env.PORT || 4000;
 
-async function main() {
-  try {
-    await sequelize.authenticate();
-    console.log("Conexión a la base de datos establecida correctamente.");
+async function main (){
+  try{
+    await sequelize.sync({alter: true});
+  console.log("conexion establecida")
+  app.listen(4000)
+  console.log("servidor conectado",4000);
 
-    await sequelize.sync({ alter: true });
-    console.log("Base de datos sincronizada.");
+  }catch (error){
+    console.log("unable to connect to the database",error); 
 
-    app.listen(PORT, () => {
-      console.log(`Servicio corriendo en el puerto ${PORT}`);
-    });
-
-  } catch (error) {
-    console.error("Error en la conexión a la base de datos:", error.message);
   }
 }
 
-main();
+main ();
